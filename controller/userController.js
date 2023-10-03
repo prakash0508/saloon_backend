@@ -32,9 +32,9 @@ exports.register = async (req, res, next) => {
 //Login
 exports.login = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return next(createError(403, "User not found"));
