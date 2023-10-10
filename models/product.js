@@ -1,26 +1,26 @@
 const mongoose = require("mongoose");
-const FurniturModal = new mongoose.Schema(
+const ProductModel = new mongoose.Schema(
   {
-    furniture_name: {
+    Product_name: {
       type: String,
       required: true,
     },
-    furniture_Img_url: {
+    Product_Img_url: {
       type: String,
       required: true,
     },
-    furniture_description: {
+    Product_description: {
       type: String,
     },
-    furniture_price: {
+    Product_price: {
       type: Number,
       required: true,
     },
-    furniture_category: {
+    Product_category: {
       type: String,
       required: true,
     },
-    furniture_sub_category: {
+    Product_sub_category: {
       type: String,
       required: true,
     },
@@ -32,4 +32,4 @@ const FurniturModal = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Furniture", FurniturModal);
+module.exports = mongoose.model("Product", ProductModel);

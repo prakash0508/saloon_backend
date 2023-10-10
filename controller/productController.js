@@ -1,24 +1,24 @@
-const Furniture = require("../models/furniture");
+const Product = require("../models/product");
 const { createError } = require("../utils/error");
 
-exports.postFurniture = async (req, res, next) => {
+exports.postProduct = async (req, res, next) => {
   try {
     const {
-      furniture_name,
-      furniture_Img_url,
-      furniture_description,
-      furniture_price,
-      furniture_category,
-      furniture_sub_category,
+      Product_name,
+      Product_Img_url,
+      Product_description,
+      Product_price,
+      Product_category,
+      Product_sub_category,
     } = req.body;
 
-    const newProduct = new Furniture({
-      furniture_category,
-      furniture_name,
-      furniture_Img_url,
-      furniture_price,
-      furniture_description,
-      furniture_sub_category,
+    const newProduct = new Product({
+      Product_category,
+      Product_name,
+      Product_Img_url,
+      Product_price,
+      Product_description,
+      Product_sub_category,
     });
 
     await newProduct.save();
@@ -31,22 +31,22 @@ exports.postFurniture = async (req, res, next) => {
 
 exports.allProducts = async (req, res, next) => {
   try {
-    const allProduct = await Furniture.find();
+    const allProduct = await Product.find();
     res.status(201).json({ message: "All Products", allProduct });
   } catch (error) {
     next(createError(404, "Product not found"));
   }
 };
 
-// Update a furniture product by ID
-exports.updateFurniture = async (req, res, next) => {
+// Update a Product product by ID
+exports.updateProduct = async (req, res, next) => {
   try {
-    const furnitureId = req.params.id;
+    const ProductId = req.params.id;
 
     const updatedData = req.body;
 
-    const updatedProduct = await Furniture.findByIdAndUpdate(
-      furnitureId,
+    const updatedProduct = await Product.findByIdAndUpdate(
+      ProductId,
       updatedData,
       { new: true }
     );
@@ -61,12 +61,12 @@ exports.updateFurniture = async (req, res, next) => {
   }
 };
 
-// Delete a furniture product by ID
-exports.deleteFurniture = async (req, res, next) => {
+// Delete a Product product by ID
+exports.deleteProduct = async (req, res, next) => {
   try {
-    const furnitureId = req.params.id;
+    const ProductId = req.params.id;
 
-    const deletedProduct = await Furniture.findByIdAndDelete(furnitureId);
+    const deletedProduct = await Product.findByIdAndDelete(ProductId);
 
     if (!deletedProduct) {
       return next(createError(404, "Product not found"));
@@ -79,11 +79,11 @@ exports.deleteFurniture = async (req, res, next) => {
 };
 
 // Get a single product by ID
-exports.getFurnitureById = async (req, res, next) => {
+exports.getProductById = async (req, res, next) => {
   try {
-    const furnitureId = req.params.id;
+    const ProductId = req.params.id;
 
-    const product = await Furniture.findById(furnitureId);
+    const product = await Product.findById(ProductId);
 
     if (!product) {
       return next(createError(404, "Product not found"));
