@@ -11,7 +11,8 @@ const {
   getUserById,
   getUserByUsername,
   getAllUsers ,
-  changeUserRole
+  changeUserRole,
+  addCart
 } = require("../controller/userController");
 const { verifyToken, isAdmin } = require("../utils/authentication");
 
@@ -24,5 +25,6 @@ router.route("/auth/delete-user").delete(verifyToken, isAdmin,deleteUser);
 router.route("/auth/all-users").get(verifyToken, isAdmin,getAllUsers);
 router.route("/auth/:id").delete(verifyToken, isAdmin,getUserById);
 router.route("/auth/:username").delete(verifyToken, isAdmin,getUserByUsername);
+router.route("/add-cart").post(verifyToken,addCart);
 
 module.exports = router;

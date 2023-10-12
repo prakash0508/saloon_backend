@@ -7,7 +7,7 @@ const { createError } = require("../utils/error");
 
 exports.register = async (req, res, next) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
 
