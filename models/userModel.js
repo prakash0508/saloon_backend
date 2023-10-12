@@ -23,6 +23,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    no_of_orders : {
+      type : Number,
+      default : 0,
+    },
+    your_orders : [],
+    cart: [],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

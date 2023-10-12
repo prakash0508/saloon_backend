@@ -54,23 +54,19 @@ exports.login = async (req, res, next) => {
   }
 };
 
-
-exports.me = async(req, res, next)=>{
+exports.me = async (req, res, next) => {
   try {
+    const user = req.user;
 
-    const user = req.user 
-
-    if(!user){
+    if (!user) {
       return next(createError(404, "Usering not found"));
     }
 
     res.status(201).json({ message: "Your credential", user });
-    
   } catch (error) {
     next(createError(404, "user failed"));
   }
-}
-
+};
 
 // Get user by ID
 exports.getUserById = async (req, res, next) => {
@@ -92,7 +88,7 @@ exports.getUserById = async (req, res, next) => {
 // Get user by username
 exports.getUserByUsername = async (req, res, next) => {
   try {
-    const username = req.params.username; 
+    const username = req.params.username;
 
     const user = await User.findOne({ username });
 
@@ -106,12 +102,11 @@ exports.getUserByUsername = async (req, res, next) => {
   }
 };
 
-
 // Update user information
 exports.updateUser = async (req, res, next) => {
   try {
-    const userId = req.params.id; 
-    const updatedData = req.body; 
+    const userId = req.params.id;
+    const updatedData = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -163,12 +158,12 @@ exports.getAllUsers = async (req, res, next) => {
 exports.changeUserRole = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const newRole = req.body.newRole; 
+    const newRole = req.body.newRole;
 
     const user = await User.findByIdAndUpdate(
       userId,
       { role: newRole },
-      { new: true } 
+      { new: true }
     );
 
     if (!user) {
@@ -178,6 +173,21 @@ exports.changeUserRole = async (req, res, next) => {
     res.status(200).json({ message: "User role changed", user });
   } catch (error) {
     next(createError(500, "User role change failed"));
+  }
+};
+
+exports.addCart = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { cartItem } = req.body;
+
+    user.cart.unshift(cartItem);
+
+    await user.save;
+
+    res.status(200).json({ message: "Item added to cart", cartItem });
+  } catch (error) {
+    next(createError(500, "Not added to cart "));
   }
 };
 
