@@ -179,15 +179,45 @@ exports.changeUserRole = async (req, res, next) => {
 exports.addCart = async (req, res, next) => {
   try {
     const user = req.user;
-
     const { cartItem } = req.body;
-    console.log(user.cart);
+    const existingItemIndex = user.cart.findIndex(
+      (item) => item.id === cartItem.id
+    );
 
-    user.cart.unshift(cartItem);
+    if (existingItemIndex !== -1) {
+      user.cart[existingItemIndex].quantity += cartItem.quantity;
+      await user.save();
+      return res
+        .status(200)
+        .json({ message: "Item increased in cart ", cartItem });
+    } else {
+      user.cart.unshift(cartItem);
+      await user.save();
+
+      res.status(200).json({ message: "Item added to cart", cartItem });
+    }
+  } catch (error) {
+    next(createError(500, "Not added to cart "));
+  }
+};
+
+exports.subCart = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { cartItem } = req.body;
+    const existingItemIndex = user.cart.findIndex(
+      (item) => item.id === cartItem.id
+    );
+
+    if (existingItemIndex !== -1) {
+      user.cart[existingItemIndex].quantity -= cartItem.quantity;
+    } else {
+      user.cart.unshift(cartItem);
+    }
 
     await user.save();
 
-    res.status(200).json({ message: "Item added to cart", cartItem });
+    res.status(200).json({ message: "Item reduced to cart", cartItem });
   } catch (error) {
     next(createError(500, "Not added to cart "));
   }

@@ -12,7 +12,9 @@ const {
   getUserByUsername,
   getAllUsers ,
   changeUserRole,
-  addCart
+  addCart,
+  removeCart,
+  subCart
 } = require("../controller/userController");
 const { verifyToken, isAdmin } = require("../utils/authentication");
 
@@ -26,5 +28,7 @@ router.route("/auth/all-users").get(verifyToken, isAdmin,getAllUsers);
 router.route("/auth/:id").delete(verifyToken, isAdmin,getUserById);
 router.route("/auth/:username").delete(verifyToken, isAdmin,getUserByUsername);
 router.route("/add-cart").post(verifyToken,addCart);
+router.route("/remove-cart").post(verifyToken,removeCart);
+router.route("/sub-cart").post(verifyToken,subCart);
 
 module.exports = router;
