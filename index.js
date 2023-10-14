@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const { connectDB } = require("./utils/db");
 const userRoute = require("./routes/userRoute.js");
 const productRoutes = require("./routes/productRoute.js");
+const orderRoute = require("./routes/orderRoute")
 
 dotenv.config();
 connectDB();
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 5000;
 //Routes
 app.use("/user", userRoute);
 app.use("/product", productRoutes);
+app.use("/order", orderRoute);
 
 //Error Handling
 app.use((error, req, res, next) => {

@@ -10,6 +10,7 @@ exports.postProduct = async (req, res, next) => {
       Product_price,
       Product_category,
       Product_sub_category,
+      In_stock 
     } = req.body;
 
     const newProduct = new Product({
@@ -19,6 +20,7 @@ exports.postProduct = async (req, res, next) => {
       Product_price,
       Product_description,
       Product_sub_category,
+      In_stock
     });
 
     await newProduct.save();

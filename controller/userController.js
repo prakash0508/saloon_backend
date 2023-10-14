@@ -179,11 +179,13 @@ exports.changeUserRole = async (req, res, next) => {
 exports.addCart = async (req, res, next) => {
   try {
     const user = req.user;
+
     const { cartItem } = req.body;
+    console.log(user.cart);
 
     user.cart.unshift(cartItem);
 
-    await user.save;
+    await user.save();
 
     res.status(200).json({ message: "Item added to cart", cartItem });
   } catch (error) {
@@ -191,5 +193,24 @@ exports.addCart = async (req, res, next) => {
   }
 };
 
+exports.removeCart = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const { cartItemId } = req.params;
 
+    const index = user.cart.findIndex(
+      (item) => item._id.toString() === cartItemId
+    );
 
+    if (index === -1) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+    user.cart.splice(index, 1);
+
+    await user.save();
+
+    res.status(200).json({ message: "Item removed from cart", cartItemId });
+  } catch (error) {
+    next(createError(500, "Error while removing item from cart"));
+  }
+};
